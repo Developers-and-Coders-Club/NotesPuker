@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./config/config.env
+    command: pm2-runtime start app.js
+    depends_on:
+      - mongo
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mongo:
+    image: mongo:7.0.5
+    volumes:
+      - ./data/db:/data/db
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge
