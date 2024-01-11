@@ -20,8 +20,11 @@ services:
   mongo:
     image: mongo:7.0.5
     volumes:
-      - ./data/db:/data/db
+      - mongo-data:/data/db
     restart: unless-stopped
+
+volumes:
+  mongo-data:
 
 networks:
   default:
