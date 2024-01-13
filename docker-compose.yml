@@ -3,8 +3,6 @@ version: '3.8'
 services:
   web:
     build: .
-    ports:
-      - "3000:3000"
     env_file:
       - ./config/config.env
     command: pm2-runtime start app.js
@@ -14,13 +12,25 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "10m"
-        max-file: "3"
+        max-size: '10m'
+        max-file: '3'
 
   mongo:
     image: mongo:7.0.5
     volumes:
       - mongo-data:/data/db
+    restart: unless-stopped
+
+  nginx:
+    image: jonasal/nginx-certbot:5.0.0-nginx1.25.3-alpine
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./config/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - web
     restart: unless-stopped
 
 volumes:
