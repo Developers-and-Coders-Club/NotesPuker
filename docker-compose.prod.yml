@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: arnabdaz/notespuker:1
     env_file:
       - ./config/config.env
     command: pm2-runtime start app.js
@@ -24,7 +22,10 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:1.24.0-alpine
+    image: arnabdaz/nginx-certbot:1
+    environment:
+      - CERTBOT_EMAIL=example@email.com
+      - CERTBOT_DOMAINS=example.com
     ports:
       - '80:80'
       - '443:443'
