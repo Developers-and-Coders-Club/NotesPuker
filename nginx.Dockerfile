@@ -16,7 +16,7 @@ RUN chmod +x /usr/local/bin/certbot_renew.sh
 RUN echo "0 0 * * 0 /usr/local/bin/certbot_renew.sh" >> /etc/crontabs/root
 
 # switch to non root user
-USER nginx
+# USER nginx
 
 # start nginx run certbot.sh and start cron
 CMD ["sh", "-c", "nginx -g 'daemon off;' & /usr/local/bin/certbot.sh & crond -f"]
