@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: jonasal/nginx-certbot:5.0.0-nginx1.25.3-alpine
+    image: nginx:1.24.0-alipine3.17
     ports:
       - '80:80'
       - '443:443'
