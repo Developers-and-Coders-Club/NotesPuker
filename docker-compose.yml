@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file:
       - ./config/config.env
     command: pm2-runtime start app.js
@@ -22,19 +24,22 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:1.24.0-alpine3.17
+    build: 
+      context: .
+      dockerfile: nginx.Dockerfile
     ports:
       - '80:80'
       - '443:443'
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
-      - ./config/letsencrypt:/etc/letsencrypt
+      - letsencrypt:/etc/letsencrypt
     depends_on:
       - web
     restart: unless-stopped
 
 volumes:
   mongo-data:
+  letsencrypt:
 
 networks:
   default:
