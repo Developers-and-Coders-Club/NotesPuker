@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:1.24.0-alipine3.17
+    image: nginx:1.24.0-alpine3.17
     ports:
       - '80:80'
       - '443:443'
